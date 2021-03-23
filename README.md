@@ -12,6 +12,12 @@ Conversion to OpenAPI 2.0 (Swagger) from OpenAPI 3.0 is done with several consid
 npm i -g .
 ```
 
+### Docker
+
+```bash
+npm i -g .
+```
+
 ## Usage
 
 ### Command Line
@@ -46,7 +52,7 @@ $ api-spec-converter -h
 
 Example:
 ```bash
-$ api-spec-converter --from=swagger_1 --to=swagger_2 --syntax=yaml --order=alpha https://raw.githubusercontent.com/LucyBot-Inc/api-spec-converter/master/test/input/swagger_1/petstore/pet.json > swagger.json
+$ api-spec-converter --from=openapi_3 --to=swagger_2 http://localhost:8080/docs/swagger/ > swagger.json
 ```
 
 ## Supported Formats
@@ -93,10 +99,8 @@ In case you need to override the expected outputs, due to a justified and verifi
 WRITE_GOLDEN=true npm test
 ```
 ### Releases
+
 ```
-npm run browserify
-git commit -a -m "Build browser distribution"
-npm version minor # or major/patch
-npm publish
-git push --follow-tags
+docker build . -t agenthaac.azurecr.io/api-spec-converter:$VERSION
+docker push agenthaac.azurecr.io/api-spec-converter:$VERSION
 ```
