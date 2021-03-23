@@ -1,30 +1,15 @@
-# api-spec-converter
-[![Share on Twitter][twitter-image]][twitter-link]
-
-[![Chat on gitter][gitter-image]][gitter-link]
-[![NPM version][npm-image]][npm-link]
-[![Build status][travis-image]][travis-link]
-
-[![Dependency status][deps-image]][deps-link]
-[![devDependency status][devdeps-image]][devdeps-link]
-
+# api-spec-converter adapted to 4th platform Swagger
 Convert between API description formats such as [Swagger](http://swagger.io/) and [RAML](http://raml.org/)
 
 **Currently only supports conversion to OpenAPI(fka Swagger) 2.0 format, and from OpenAPI 2.0 to OpenAPI 3.0.x**
 
-You can also use the online version at https://lucybot-inc.github.io/api-spec-converter/.
+Conversion to OpenAPI 2.0 (Swagger) from OpenAPI 3.0 is done with several considerations to make it compatible with 4th platform swagger guidelines.
 
 ## Installation
 
 ### Command Line
-> Problems? See [issue #132](https://github.com/LucyBot-Inc/api-spec-converter/issues/132)
 ```bash
-npm install -g api-spec-converter
-```
-
-### NodeJS/Browser
-```bash
-npm install --save api-spec-converter
+npm i -g .
 ```
 
 ## Usage
@@ -62,75 +47,6 @@ $ api-spec-converter -h
 Example:
 ```bash
 $ api-spec-converter --from=swagger_1 --to=swagger_2 --syntax=yaml --order=alpha https://raw.githubusercontent.com/LucyBot-Inc/api-spec-converter/master/test/input/swagger_1/petstore/pet.json > swagger.json
-```
-
-### NodeJS
-
-### Options
-* `from` - source format (see formats below)
-* `to` - desired format (see formats below)
-* `source` - Filename, URL, or JS object for the source
-### Simple example:
-```js
-var Converter = require('api-spec-converter');
-
-Converter.convert({
-  from: 'swagger_1',
-  to: 'swagger_2',
-  source: 'https://api.gettyimages.com/swagger/api-docs',
-}, function(err, converted) {
-  console.log(converted.stringify());
-  // For yaml and/or OpenApi field order output replace above line
-  // with an options object like below
-  //   var  options = {syntax: 'yaml', order: 'openapi'}
-  //   console.log(converted.stringify(options));
-})
-```
-### Callback vs Promises
-This library has full support for both callback and promises.
-All async functions return promises but also will execute callback if provided.
-
-```js
-var Converter = require('api-spec-converter');
-
-Converter.convert({
-  from: 'swagger_1',
-  to: 'swagger_2',
-  source: 'https://api.gettyimages.com/swagger/api-docs',
-})
-.then(function(converted) {
-  console.log(converted.stringify());
-});
-```
-### Advanced features:
-```js
-var Converter = require('api-spec-converter');
-Converter.convert({
-  from: 'swagger_1',
-  to: 'swagger_2',
-  source: 'https://api.gettyimages.com/swagger/api-docs',
-})
-  .then(function(converted) {
-    // [Optional] Fill missing fields with dummy values
-    converted.fillMissing();
-
-    // [Optional] Validate converted spec
-    return converted.validate()
-      .then(function (result) {
-        if (result.errors)
-          return console.error(JSON.stringify(errors, null, 2));
-        if (result.warnings)
-          return console.error(JSON.stringify(warnings, null, 2));
-
-        fs.writeFileSync('swagger2.json', converted.stringify());
-      });
-  });
-```
-
-### Browser
-```js
-<script src="node_modules/api-spec-converter/dist/api-spec-converter.js"></script>
-APISpecConverter.convert(...)
 ```
 
 ## Supported Formats
@@ -184,16 +100,3 @@ npm version minor # or major/patch
 npm publish
 git push --follow-tags
 ```
-
-[twitter-image]: https://img.shields.io/twitter/url/http/lucybot.github.io/api-spec-converter.svg?style=social
-[twitter-link]: https://twitter.com/intent/tweet?text=Convert+between+API+description+formats+such+as+Swagger+and+RAML:&url=http%3A%2F%2Flucybot.github.io%2Fapi-spec-converter
-[gitter-image]: https://img.shields.io/gitter/room/lucybot/api-spec-converter.svg
-[gitter-link]: https://gitter.im/lucybot/api-spec-converter
-[npm-image]: https://img.shields.io/npm/v/api-spec-converter.svg
-[npm-link]: https://npmjs.org/package/api-spec-converter
-[travis-image]: https://img.shields.io/travis/LucyBot-Inc/api-spec-converter.svg
-[travis-link]: https://travis-ci.org/LucyBot-Inc/api-spec-converter
-[deps-image]: https://img.shields.io/david/lucybot/api-spec-converter.svg
-[deps-link]: https://david-dm.org/lucybot/api-spec-converter
-[devdeps-image]: https://img.shields.io/david/dev/lucybot/api-spec-converter.svg
-[devdeps-link]: https://david-dm.org/lucybot/api-spec-converter#info=devDependencies
